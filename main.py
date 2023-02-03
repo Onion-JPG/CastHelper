@@ -9,8 +9,6 @@ root = customtkinter.CTk()
 root.geometry("600x900")
 root.title("Cast Helper")
 
-# RGAPI-9572cdc8-7e5b-4d8c-884b-089e4d705258
-
 class searchView(customtkinter.CTkFrame):
     def __init__(self, master=None):
         customtkinter.CTkFrame.__init__(self, master, width=600, height=400)
