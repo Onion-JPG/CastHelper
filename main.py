@@ -6,7 +6,7 @@ customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
 root = customtkinter.CTk()
-root.geometry("600x900")
+root.geometry("700x800")
 root.title("Cast Helper")
 
 class searchView(customtkinter.CTkFrame):
@@ -34,8 +34,8 @@ class searchView(customtkinter.CTkFrame):
     def search(self):
 
         name = self.summonerId.get()
-        
         apiKey = self.key.get()
+        
         cassiopeia.set_riot_api_key(apiKey)
         global summoner
         summoner = cassiopeia.get_summoner(name=name, region="NA")
@@ -48,7 +48,7 @@ class searchView(customtkinter.CTkFrame):
         else :
             self.console.configure(state="normal")
             self.console.delete("0.0", "end")
-            self.console.insert("0.0", "User found")
+            self.console.insert("0.0", "User found, but not in a match!")
             self.console.configure(state="disable")
 
             if (not summoner.current_match.exists):
@@ -65,7 +65,7 @@ class resultView(customtkinter.CTkFrame):
         customtkinter.CTkFrame.__init__(self, master)
 
         self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure((0,2), weight=1)
+        self.grid_columnconfigure((0,4), weight=1)
 
         self.create_widgets()
 
@@ -77,13 +77,8 @@ class resultView(customtkinter.CTkFrame):
         label.grid(row=1, column=0)
 
         label = customtkinter.CTkLabel(master=self, text="Red Side", font=("Roboto", 15))
-        label.grid(row=1, column=3)
+        label.grid(row=1, column=4)
 
-        # blueSide = customtkinter.CTkTextbox(master=self, state="disabled", height=300)
-        # blueSide.grid(row=2, column=0, padx=20, pady=(20, 0), sticky="nsew")
-
-        # redSide = customtkinter.CTkTextbox(master=self, state="disabled", height=300)
-        # redSide.grid(row=2, column=3, padx=20, pady=(20, 0), sticky="nsew")
         riotAPI.parsing.getChamps(self, summoner)
 
     def switch_frame(self):
