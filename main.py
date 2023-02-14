@@ -6,7 +6,7 @@ customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
 root = customtkinter.CTk()
-root.geometry("700x800")
+root.geometry("700x700")
 root.title("Cast Helper")
 
 class searchView(customtkinter.CTkFrame):
@@ -35,7 +35,7 @@ class searchView(customtkinter.CTkFrame):
 
         name = self.summonerId.get()
         apiKey = self.key.get()
-        
+
         cassiopeia.set_riot_api_key(apiKey)
         global summoner
         summoner = cassiopeia.get_summoner(name=name, region="NA")
