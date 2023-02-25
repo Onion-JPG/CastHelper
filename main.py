@@ -1,6 +1,7 @@
 import customtkinter
 import riotAPI
 import cassiopeia
+import config
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
@@ -22,9 +23,6 @@ class searchView(customtkinter.CTkFrame):
         self.summonerId = customtkinter.CTkEntry(master=self, placeholder_text="Summoner Name")
         self.summonerId.pack(pady=12, padx=10)
 
-        self.key = customtkinter.CTkEntry(master=self, placeholder_text="API Key", show="*")
-        self.key.pack(pady=12, padx=10)
-
         self.searchButton = customtkinter.CTkButton(master=self, text="Search for Game", command=self.search)
         self.searchButton.pack()
 
@@ -34,7 +32,7 @@ class searchView(customtkinter.CTkFrame):
     def search(self):
 
         name = self.summonerId.get()
-        apiKey = self.key.get()
+        apiKey = config.apikey
 
         cassiopeia.set_riot_api_key(apiKey)
         global summoner
