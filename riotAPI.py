@@ -64,7 +64,7 @@ class parsing:
                 frame.label = customtkinter.CTkLabel(master=frame, text=cassiopeia.get_champion(key=participant.champion, region="NA").name, font=("Roboto", 18))
                 frame.label.grid(row=counter+1, column=4)
 
-                image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "champion")
+                image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "tiles")
                 champ_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, participant.champion.key + ".png")), size=(25, 25))
                 frame.label = customtkinter.CTkLabel(master=frame, image=champ_image, text=None)
                 frame.label.grid(row=counter+2, column=4)
