@@ -17,7 +17,7 @@ customtkinter.set_default_color_theme("blue")
 # making a CTk object, setting it's defualt size to be 800 x 800 and 
 # setting its application name to Cast Helper
 root = customtkinter.CTk()
-root.geometry("800x800")
+root.geometry("800x700")
 root.title("Cast Helper")
 
 # search view class, where the search is made
@@ -60,23 +60,29 @@ class searchView(customtkinter.CTkFrame):
         cassiopeia.set_riot_api_key(apiKey)
         summoner = cassiopeia.get_summoner(name=name, region="NA")
 
-        # if the summoner does not exist, ie. typo in name
-        if (not summoner.exists): 
-            self.console.configure(state="normal")
-            self.console.delete("0.0", "end")
-            self.console.insert("0.0", "User not found")
-            self.console.configure(state="disable")
-        else :
-            # summoner was found but they arent in a game
-            if (not summoner.current_match.exists):            
+        # if the summoner exist, try to see if they are in a game, if they are
+        # not or the name is wrong, it will tell you in the console box below
+        # the search bar
+        if (summoner.exists): 
+            # we have to use a try statement because Cass throws an error 
+            # if we do summoner.current_match.exists when there is not a game
+            # being played. I am not sure why but this way works 
+            try: 
+                if (summoner.current_match.exists):            
+                    self.pack_forget()
+                    resultView(self.master).pack()
+            except:
                 self.console.configure(state="normal")
                 self.console.delete("0.0", "end")
                 self.console.insert("0.0", "User found, but not in a match!")
                 self.console.configure(state="disable")
-            # user found and in a game, we search the summoner now
-            else: 
-                self.pack_forget()
-                resultView(self.master).pack()
+        else :
+            self.console.configure(state="normal")
+            self.console.delete("0.0", "end")
+            self.console.insert("0.0", "User not found")
+            self.console.configure(state="disable")
+            
+            
 
 # result view class, where the results are shown
 class resultView(customtkinter.CTkFrame):
