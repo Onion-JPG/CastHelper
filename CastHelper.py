@@ -10,7 +10,7 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
 
-class searchFrame(customtkinter.CTkFrame):
+class SearchFrame(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
 
@@ -43,7 +43,7 @@ class searchFrame(customtkinter.CTkFrame):
             if (summoner.current_match.exists):  
                 # print("exist in game")          
                 self.destroy()
-                resultFrame(self.master).pack()
+                ResultFrame(self.master).pack()
             else:
                 # print("exist out of game")
                 self.console.configure(state="normal")
@@ -59,7 +59,7 @@ class searchFrame(customtkinter.CTkFrame):
             
 #################################################################################################################################            
 
-class resultFrame(customtkinter.CTkFrame):
+class ResultFrame(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
 
@@ -79,6 +79,20 @@ class resultFrame(customtkinter.CTkFrame):
 
         # calling getChamps from our riotAPI file
         riotAPI.Parsing.display(self, summoner)
+
+#################################################################################################################################            
+
+class GameFrame(customtkinter.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master)
+
+        label = customtkinter.CTkLabel(master=self, text="Select Game", font=("Roboto", 24))
+        label.grid(row=0, column=1, padx=10, pady=12)
+
+        searchButton = customtkinter.CTkButton(master=self, text="League of Legends")
+        searchButton.grid(row=3, column=0, padx=10, pady=12)
+        searchButton = customtkinter.CTkButton(master=self, text="VALORANT")
+        searchButton.grid(row=3, column=2, padx=10, pady=12)
         
 #################################################################################################################################
 
@@ -93,7 +107,7 @@ class CastHelper(customtkinter.CTk):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
-        searchFrame(self).grid(row=0, column=0, padx=10, pady=12)
+        GameFrame(self).grid(row=0, column=0, padx=10, pady=12)
 
     
 
