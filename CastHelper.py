@@ -10,11 +10,11 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
 
-class SearchFrame(customtkinter.CTkFrame):
+class LeagueSearchFrame(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
 
-        master.title("CastHelperV2 - Search")
+        # master.title("CastHelperV2 - Search")
         
         label = customtkinter.CTkLabel(master=self, text="Summoner Search", font=("Roboto", 24))
         label.grid(row=0, column=0, padx=10, pady=12)
@@ -43,7 +43,7 @@ class SearchFrame(customtkinter.CTkFrame):
             if (summoner.current_match.exists):  
                 # print("exist in game")          
                 self.destroy()
-                ResultFrame(self.master).pack()
+                LeagueResultFrame(self.master).pack()
             else:
                 # print("exist out of game")
                 self.console.configure(state="normal")
@@ -59,15 +59,15 @@ class SearchFrame(customtkinter.CTkFrame):
             
 #################################################################################################################################            
 
-class ResultFrame(customtkinter.CTkFrame):
+class LeagueResultFrame(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
 
-        master.title("CastHelperV2 - Results")
+        # master.title("CastHelperV2 - Results")
 
         # making a new search button and placing it in the top middle
-        # switch_frame_button = customtkinter.CTkButton(master=self, text="Search for Another", command=self.switch_frame(master))
-        # switch_frame_button.grid(row=0, column=3)
+        switch_frame_button = customtkinter.CTkButton(master=self, text="Search for Another", command=self.toSearchFrame)
+        switch_frame_button.grid(row=0, column=3)
 
         # creating a blue and red side label
         label = customtkinter.CTkLabel(master=self, text="Blue Side", font=("Roboto", 15))
@@ -80,6 +80,10 @@ class ResultFrame(customtkinter.CTkFrame):
         # calling getChamps from our riotAPI file
         riotAPI.Parsing.display(self, summoner)
 
+    def toSearchFrame(self):
+        self.destroy()
+        LeagueSearchFrame(self.master).grid(row=0, column=0, padx=10, pady=12)
+
 #################################################################################################################################            
 
 class GameFrame(customtkinter.CTkFrame):
@@ -89,10 +93,19 @@ class GameFrame(customtkinter.CTkFrame):
         label = customtkinter.CTkLabel(master=self, text="Select Game", font=("Roboto", 24))
         label.grid(row=0, column=1, padx=10, pady=12)
 
-        searchButton = customtkinter.CTkButton(master=self, text="League of Legends")
-        searchButton.grid(row=3, column=0, padx=10, pady=12)
-        searchButton = customtkinter.CTkButton(master=self, text="VALORANT")
-        searchButton.grid(row=3, column=2, padx=10, pady=12)
+        leagueButton = customtkinter.CTkButton(master=self, text="League of Legends", command=self.toLeagueOfLegends)
+        leagueButton.grid(row=3, column=0, padx=10, pady=12)
+
+        valButton = customtkinter.CTkButton(master=self, text="VALORANT", command=self.toValorant)
+        valButton.grid(row=3, column=2, padx=10, pady=12)
+
+    def toLeagueOfLegends(self):
+        self.grid_forget()
+        LeagueSearchFrame(self.master).grid(row=0, column=0, padx=10, pady=12)
+
+    def toValorant(self):
+        self.grid_forget()
+        LeagueSearchFrame(self.master).grid(row=0, column=0, padx=10, pady=12)
         
 #################################################################################################################################
 
@@ -108,6 +121,7 @@ class CastHelper(customtkinter.CTk):
         self.grid_rowconfigure(0, weight=1)
 
         GameFrame(self).grid(row=0, column=0, padx=10, pady=12)
+        #SearchFrame(self).grid(row=0, column=0, padx=10, pady=12)
 
     
 
