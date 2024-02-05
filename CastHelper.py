@@ -9,7 +9,6 @@ import config
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
-
 class LeagueSearchFrame(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
@@ -27,6 +26,14 @@ class LeagueSearchFrame(customtkinter.CTkFrame):
 
         self.console = customtkinter.CTkTextbox(master=self, state="disabled", height=5)
         self.console.grid(row=4, column=0, padx=10, pady=12)
+
+        returnButton = customtkinter.CTkButton(master=self, text="Return to Game Select", command=self.toGameSelect)
+        returnButton.grid(row=5, column=0, padx=10, pady=12)
+
+    def toGameSelect(self):
+        self.destroy()
+        GameFrame(self.master).grid(row=0, column=0, padx=10, pady=12)
+        
 
     def search(self):
         global summoner
@@ -67,18 +74,16 @@ class LeagueResultFrame(customtkinter.CTkFrame):
 
         # making a new search button and placing it in the top middle
         switch_frame_button = customtkinter.CTkButton(master=self, text="Search for Another", command=self.toSearchFrame)
-        switch_frame_button.grid(row=0, column=3)
+        switch_frame_button.grid(row=0, column=2)
 
         # creating a blue and red side label
         label = customtkinter.CTkLabel(master=self, text="Blue Side", font=("Roboto", 15))
         label.grid(row=0, column=0)
-        label = customtkinter.CTkLabel(master=self, text="blank label", font=("Roboto", 15))
-        label.grid(row=0, column=2)
         label = customtkinter.CTkLabel(master=self, text="Red Side", font=("Roboto", 15))
         label.grid(row=0, column=4)
 
         # calling getChamps from our riotAPI file
-        riotAPI.Parsing.display(self, summoner)
+        riotAPI.LeagueParsing.display(self, summoner)
 
     def toSearchFrame(self):
         self.destroy()
@@ -100,11 +105,11 @@ class GameFrame(customtkinter.CTkFrame):
         valButton.grid(row=3, column=2, padx=10, pady=12)
 
     def toLeagueOfLegends(self):
-        self.grid_forget()
+        self.destroy()
         LeagueSearchFrame(self.master).grid(row=0, column=0, padx=10, pady=12)
 
     def toValorant(self):
-        self.grid_forget()
+        self.destroy()
         LeagueSearchFrame(self.master).grid(row=0, column=0, padx=10, pady=12)
         
 #################################################################################################################################
@@ -121,9 +126,6 @@ class CastHelper(customtkinter.CTk):
         self.grid_rowconfigure(0, weight=1)
 
         GameFrame(self).grid(row=0, column=0, padx=10, pady=12)
-        #SearchFrame(self).grid(row=0, column=0, padx=10, pady=12)
-
     
-
 root = CastHelper()
 root.mainloop()
